@@ -18,8 +18,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.pravin.assignment.R;
+import com.pravin.assignment.service.adapter.DataAdapter;
 import com.pravin.assignment.service.model.FactsModel;
 import com.pravin.assignment.viewmodel.MainViewModel;
+
+import java.util.Objects;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
@@ -56,11 +59,14 @@ public class MainViewFragment extends Fragment {
     }
 
     private void fetchDataList() {
+        final DataAdapter adapter = new DataAdapter();
+        recyclerView.setAdapter(adapter);
         viewModel.getFacts().observe(this, new Observer<FactsModel>() {
             @Override
             public void onChanged(@Nullable FactsModel factsModel) {
                 if (factsModel != null) {
-                    Log.e("fetchDataList","fetchDataList");
+                    Objects.requireNonNull(getActivity()).setTitle(factsModel.getTitle());
+                    adapter.updateData(factsModel.getRows());
                 }else {
                     Toast.makeText(getContext(), "Failure_text", Toast.LENGTH_LONG).show();
                 }

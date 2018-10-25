@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pravin.assignment.service.model.FactsModel;
+import com.pravin.assignment.service.model.FeedModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +34,7 @@ public class FactsRepository {
             @Override
             public void onResponse(@NonNull Call<FactsModel> call, @NonNull Response<FactsModel> response) {
                 Log.e("onResponse",new Gson().toJson(response.body()));
-                factsModelMutableLiveData.setValue(response.body());
+                factsModelMutableLiveData.setValue(removeNullDataFromResponse(response.body()));
             }
 
             @Override
@@ -44,6 +45,21 @@ public class FactsRepository {
         });
 
         return factsModelMutableLiveData;
+    }
+
+
+    // process the data from the response to skip invalid data
+    private FactsModel removeNullDataFromResponse(FactsModel facts) {
+
+        if (facts != null) {
+            for (int i = 0; i < facts.getRows().size(); i++) {
+                FeedModel feed = facts.getRows().get(i);
+                if (feed.getTitle() == null && feed.getDescription() == null && feed.getImageHref() == null)
+                    facts.getRows().remove(feed);
+            }
+        }
+
+        return facts;
     }
 
 }

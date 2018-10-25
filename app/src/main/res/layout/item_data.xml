@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--data binding with DataListViewModel definition-->
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.pravin.assignment.viewmodel.DataListViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/row_margin">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="@dimen/material_text_subheading"
+            android:text="@{viewmodel.feed.title}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/title">
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/material_text_body1"
+                android:layout_weight="2"
+                android:text="@{viewmodel.feed.description}" />
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:imageUrl="@{viewmodel.feed.imageHref}" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>
