@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    /*PRIMARY TEXT SIZE*/
+    <dimen name="text_size_primary">18sp</dimen>
+
+    /*SECONDARY TEXT SIZE*/
+    <dimen name="text_size_secondary">16sp</dimen>
+
+
+
+    <dimen name="material_text_subheading">18sp</dimen>
+    <dimen name="material_text_body1">14sp</dimen>
+    <dimen name="row_margin">5dp</dimen>
+</resources>
