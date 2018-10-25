@@ -1,4 +1,4 @@
-package com.pravin.assignment.service;
+package com.pravin.assignment.service.service;
 
 import com.pravin.assignment.utils.AppConfig;
 
