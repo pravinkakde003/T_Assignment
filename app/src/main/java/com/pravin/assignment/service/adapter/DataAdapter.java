@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.pravin.assignment.R;
 import com.pravin.assignment.databinding.ItemDataBinding;
 import com.pravin.assignment.service.model.FeedModel;
@@ -72,9 +74,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
         notifyDataSetChanged();
     }
 
-    @BindingAdapter({"bind:imageUrl"})
-    public static void loadImage(ImageView imageView , String imageUrl) {
-
+    @BindingAdapter({"imageUrl"})
+    public static void loadImage(ImageView imageView, String imageUrl) {
+        Glide.with(imageView.getContext())
+                .applyDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.mipmap.ic_default_image)
+                        .error(R.mipmap.ic_default_image))
+                .load(imageUrl)
+                .into(imageView);
     }
 
 

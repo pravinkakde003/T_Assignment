@@ -50,12 +50,15 @@ public class FactsRepository {
 
     // process the data from the response to skip invalid data
     private FactsModel removeNullDataFromResponse(FactsModel facts) {
-
         if (facts != null) {
             for (int i = 0; i < facts.getRows().size(); i++) {
                 FeedModel feed = facts.getRows().get(i);
-                if (feed.getTitle() == null && feed.getDescription() == null && feed.getImageHref() == null)
+                if (feed.getTitle() == null && feed.getDescription() == null && feed.getImageHref() == null){
                     facts.getRows().remove(feed);
+                }else if(feed.getDescription()==null){
+                    feed.setDescription("No Description available");
+                }
+
             }
         }
 
