@@ -9,4 +9,7 @@
 
     /*SECONDARY TEXT COLOR*/
     <color name="colorTextSecondary">#8a000000</color>
+
+    /*WHITE COLOR*/
+    <color name="white">#FFFFFFFF</color>
 </resources>

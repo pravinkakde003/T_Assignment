@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.pravin.assignment.R;
@@ -29,11 +31,13 @@ import java.util.Objects;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
-public class MainViewFragment extends Fragment {
-
+public class MainViewFragment extends Fragment implements View.OnClickListener {
     SwipeRefreshLayout swipeRefreshLayout;
+    RelativeLayout noInternetLayout;
+    Button btnRetry;
     RecyclerView recyclerView;
     MainViewModel viewModel;
+
     public MainViewFragment() {
 
     }
@@ -55,16 +59,17 @@ public class MainViewFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        btnRetry=view.findViewById(R.id.btnRetry);
+        btnRetry.setOnClickListener(this);
         recyclerView = view.findViewById(R.id.data_recycler_view);
+        noInternetLayout = view.findViewById(R.id.noInternetLayout);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         swipeRefreshLayout.setRefreshing(true);
         fetchDataList();
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh()
-            {
+            public void onRefresh() {
                 fetchDataList();
             }
         });
@@ -82,17 +87,25 @@ public class MainViewFragment extends Fragment {
                             Objects.requireNonNull(getActivity()).setTitle(factsModel.getTitle());
                         }
                         adapter.updateData(factsModel.getRows());
-                    }else {
-                        Toast.makeText(getContext(), "Failure_text", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), R.string.error_message, Toast.LENGTH_LONG).show();
                     }
                     swipeRefreshLayout.setRefreshing(false);
+                    noInternetLayout.setVisibility(View.GONE);
                 }
             });
-        }else{
+        } else {
             swipeRefreshLayout.setRefreshing(false);
-            Toast.makeText(getContext(), "No Internet", Toast.LENGTH_LONG).show();
+            noInternetLayout.setVisibility(View.VISIBLE);
         }
+    }
 
-
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnRetry:
+                fetchDataList();
+                break;
+        }
     }
 }
