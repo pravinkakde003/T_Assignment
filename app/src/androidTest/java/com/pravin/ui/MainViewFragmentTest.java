@@ -3,6 +3,7 @@ package com.pravin.ui;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -26,6 +27,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.AllOf.allOf;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.not;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
@@ -38,29 +41,48 @@ public class MainViewFragmentTest {
             MainActivity.class);
 
     @Test
-    public void fragmentInstantiated() {
+    public void fragmentInstantiated() throws Exception {
         activityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MainViewFragment mainViewFragment = startMainViewFragment();
+                try {
+                    MainViewFragment mainViewFragment = startMainViewFragment();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         onView(withId(R.id.data_recycler_view)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testSample(){
-        if (getRowCount() > 0){
-            onView(withId(R.id.data_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
-
+    public void testClickOnItemInRecyclerView() throws Exception {
+        if (getRowCount() > 0) {
             onView(withId(R.id.data_recycler_view)).perform(RecyclerViewActions.actionOnItem(
                     hasDescendant(withText("Housing")), click()));
-
             onView(withId(R.id.title)).check(matches(withText("Housing")));
         }
     }
 
-    private MainViewFragment startMainViewFragment() {
+    @Test
+    public void testClickOnPosition() throws Exception {
+        if (getRowCount() > 0) {
+            onView(withId(R.id.data_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
+        }
+    }
+
+
+    @Test
+    public void testEmptyRecyclerView() {
+        RecyclerView recyclerView = activityRule.getActivity().findViewById(R.id.data_recycler_view);
+        int itemCount = recyclerView.getAdapter().getItemCount();
+        if (itemCount < 0) {
+            Espresso.onView(withId(R.id.data_recycler_view)).check(ViewAssertions.matches(not(isDisplayed())));
+            Espresso.onView(withId(R.id.noInternetLayout)).check(ViewAssertions.matches(isDisplayed()));
+        }
+    }
+
+    private MainViewFragment startMainViewFragment() throws Exception {
         MainActivity activity = (MainActivity) activityRule.getActivity();
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         MainViewFragment mainViewFragment = new MainViewFragment();
@@ -69,7 +91,7 @@ public class MainViewFragmentTest {
         return mainViewFragment;
     }
 
-    private int getRowCount(){
+    private int getRowCount() {
         RecyclerView recyclerView = activityRule.getActivity().findViewById(R.id.data_recycler_view);
         return recyclerView.getAdapter().getItemCount();
     }

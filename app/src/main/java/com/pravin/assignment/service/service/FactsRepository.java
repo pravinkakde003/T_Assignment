@@ -26,7 +26,7 @@ public class FactsRepository {
         return Instance;
     }
 
-    // Initiate the call to get facts
+    // Initiate the call to get facts data
     public LiveData<FactsModel> getFacts() {
         final MutableLiveData<FactsModel> factsModelMutableLiveData = new MutableLiveData<>();
         final APIInterface service = RetrofitClient.getRetrofitInstance().create(APIInterface.class);
@@ -58,10 +58,8 @@ public class FactsRepository {
                 }else if(feed.getDescription()==null){
                     feed.setDescription("No Description available");
                 }
-
             }
         }
-
         return facts;
     }
 

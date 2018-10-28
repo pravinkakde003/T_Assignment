@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder> {
-
-
+/**
+ * Adapter to show the data in RecyclerView
+ *
+ */
+public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.DataViewHolder> {
     private List<FeedModel> feed_list = new ArrayList<>();
-
-
-    public DataAdapter() {
+    public ListDataAdapter() {
 
     }
 
@@ -66,7 +66,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     /*
     Method to refresh the list with new data
      */
-    public void updateData(@Nullable ArrayList<FeedModel> data) {
+    public void updateDataInRecyclerView(@Nullable ArrayList<FeedModel> data) {
         this.feed_list.clear();
         if (data != null && !data.isEmpty()) {
             this.feed_list.addAll(data);
