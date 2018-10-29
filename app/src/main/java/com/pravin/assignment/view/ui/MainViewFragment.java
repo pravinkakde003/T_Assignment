@@ -4,6 +4,7 @@ package com.pravin.assignment.view.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,11 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pravin.assignment.R;
 import com.pravin.assignment.service.adapter.ListDataAdapter;
 import com.pravin.assignment.service.model.FactsModel;
+import com.pravin.assignment.service.model.FeedModel;
 import com.pravin.assignment.utils.NetworkUtils;
 import com.pravin.assignment.viewmodel.MainViewModel;
 
@@ -29,7 +32,7 @@ import java.util.Objects;
 /**
  * MainView Fragment to show the List feeds
  */
-public class MainViewFragment extends Fragment implements View.OnClickListener {
+public class MainViewFragment extends Fragment implements View.OnClickListener,ListDataAdapter.PostsAdapterListener {
     SwipeRefreshLayout swipeRefreshLayout;
     RelativeLayout noInternetLayout;
     Button btnRetry;
@@ -88,7 +91,7 @@ public class MainViewFragment extends Fragment implements View.OnClickListener {
      * Fetch Data from API and Update
      */
     private void fetchDataList() {
-        final ListDataAdapter adapter = new ListDataAdapter();
+        final ListDataAdapter adapter = new ListDataAdapter(this);
         recyclerView.setAdapter(adapter);
         if (NetworkUtils.isNetworkAvailable(getContext())) {
             viewModel.getFacts().observe(this, new Observer<FactsModel>() {
@@ -122,5 +125,15 @@ public class MainViewFragment extends Fragment implements View.OnClickListener {
                 fetchDataList();
                 break;
         }
+    }
+
+    @Override
+    public void onFeedClicked(FeedModel feedModel) {
+        Toast toast = Toast.makeText(getActivity(), "Clicked On: " + feedModel.getTitle(), Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        TextView text = view.findViewById(android.R.id.message);
+        text.setTextColor(getResources().getColor(R.color.white));
+        toast.show();
     }
 }

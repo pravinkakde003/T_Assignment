@@ -28,8 +28,9 @@ import java.util.List;
  */
 public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.DataViewHolder> {
     private List<FeedModel> feed_list = new ArrayList<>();
-    public ListDataAdapter() {
-
+    private PostsAdapterListener listener;
+    public ListDataAdapter(PostsAdapterListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,9 +42,17 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.DataVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
-        FeedModel dataModel = feed_list.get(position);
+    public void onBindViewHolder(@NonNull DataViewHolder holder, final int position) {
+        final FeedModel dataModel = feed_list.get(position);
         holder.setViewModel(new DataListViewModel(dataModel));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onFeedClicked(feed_list.get(position));
+                }
+            }
+        });
     }
 
     @Override
@@ -111,5 +120,9 @@ public class ListDataAdapter extends RecyclerView.Adapter<ListDataAdapter.DataVi
                 binding.setViewmodel(viewModel);
             }
         }
+    }
+
+    public interface PostsAdapterListener {
+        void onFeedClicked(FeedModel feedModel);
     }
 }
