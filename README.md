@@ -30,6 +30,4 @@ The main components of MVVM are the Model, View and ViewModel, and its structure
 
 ## Screenshots
 
-![## Setup](https://github.com/pravinkakde003/T_Assignment/blob/Develope/Screens/Screenshot_20181028-133114.jpg)
-
-![## Setup](https://github.com/pravinkakde003/T_Assignment/blob/Develope/Screens/Screenshot_20181028-133128.jpg)
+![## Setup](https://github.com/pravinkakde003/T_Assignment/blob/Develope/Screens/ScreenShots.png)
