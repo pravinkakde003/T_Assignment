@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 public class NetworkUtils {
 
     /**
+     * Check internet connection
      * @param context
      * @return True if connection Successful else False
      *
@@ -21,7 +22,6 @@ public class NetworkUtils {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
-
         return isConnected;
     }
 }

@@ -19,5 +19,7 @@ public class MainViewModel extends AndroidViewModel {
         return FactsRepository.getInstance().getFacts();
     }
 
-
+    public LiveData<FactsModel> getOfflineFacts(){
+        return FactsRepository.getInstance().getOfflineFacts();
+    }
 }
